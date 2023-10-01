@@ -69,7 +69,7 @@
 </head>
 
 <body>
-  <h1>User List</h1>
+  <h1>List of Users</h1>
   <p>User counter: <%= userList.length %>
   </p>
   <p><a href="javascript:void(0);" onclick="toggleUserForm()">Create User</a></p>
@@ -78,8 +78,8 @@
     <thead>
       <tr>
         <th>Email</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -105,7 +105,7 @@
   </table>
 
   <!-- Pop-up overlay for creating a user -->
-  <div class="overlay" id="userFormOverlay" onclick="closeUserForm()">
+  <div class="overlay" id="userFormOverlay" onclick="closeUserForm(event)">
     <div class="user-form" id="userFormContainer">
       <%- include('userForm.ejs') %>
     </div>
@@ -127,7 +127,12 @@
     // Function to close the user form
     function closeUserForm() {
       var userFormOverlay = document.getElementById('userFormOverlay');
-      userFormOverlay.style.display = 'none';
+      var closeButton = document.getElementById('closeButton');
+
+      // Check if the click event target is the overlay itself or the close button
+      if (event.target === userFormOverlay || event.target === closeButton) {
+        userFormOverlay.style.display = 'none';
+      }
     }
 
   </script>
