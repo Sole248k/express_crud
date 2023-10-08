@@ -22,6 +22,7 @@
       width: 100%;
       background-color: #9EDDFF;
       margin: 20px auto;
+      table-layout: fixed; 
     }
 
     th,
@@ -29,12 +30,20 @@
       border: 1px solid #ddd;
       padding: 10px;
       text-align: left;
+      width: 20%; 
+      vertical-align: middle; 
+      text-align: center;
     }
 
     th {
       background-color: #6499E9;
       font-weight: bold;
     }
+
+    tbody tr {
+      text-align: center;
+    }
+    
 
     .edit-link {
       color: #007bff;
@@ -65,6 +74,30 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    
+    button {
+      background-color: #6499E9; 
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    
+    button:hover {
+      background-color: #007bff !important;
+    }
+
+    
+    .user-functions {
+      text-align: center;
+    }
+
+    .user-functions button {
+      margin-right: 50px; 
+    }
   </style>
 </head>
 
@@ -72,7 +105,7 @@
   <h1>List of Users</h1>
   <p>User counter: <%= userList.length %>
   </p>
-  <p><a href="javascript:void(0);" onclick="toggleUserForm()">Create User</a></p>
+  <button onclick="toggleUserForm()">Create User</button>
 
   <table>
     <thead>
@@ -80,8 +113,7 @@
         <th>Email</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>User Functions</th>
       </tr>
     </thead>
     <tbody>
@@ -96,15 +128,16 @@
           <td>
             <%= user.lastname %>
           </td>
-          <td><a href="/edituser/<%= user.id %>" class="edit-link">Edit</a></td>
-          <td><a href="/deleteuser/<%= user.id %>" class="edit-link">Delete</a></td>
+          <td class="user-functions">
+            <a href="/edituser/<%= user.id %>"><button>Edit</button></a>
+            <a href="/deleteuser/<%= user.id %>"><button>Delete</button></a>
+          </td>
         </tr>
         <% }) %>
     </tbody>
-
   </table>
 
-  <!-- Pop-up overlay for creating a user -->
+
   <div class="overlay" id="userFormOverlay" onclick="closeUserForm(event)">
     <div class="user-form" id="userFormContainer">
       <%- include('userForm.ejs') %>
@@ -112,8 +145,6 @@
   </div>
 
   <script>
-    // Function to show/hide the user form
-    var currentEditUserId;
 
     function toggleUserForm() {
       var userFormOverlay = document.getElementById('userFormOverlay');
@@ -124,12 +155,12 @@
       }
     }
 
-    // Function to close the user form
+
     function closeUserForm() {
       var userFormOverlay = document.getElementById('userFormOverlay');
       var closeButton = document.getElementById('closeButton');
 
-      // Check if the click event target is the overlay itself or the close button
+
       if (event.target === userFormOverlay || event.target === closeButton) {
         userFormOverlay.style.display = 'none';
       }
